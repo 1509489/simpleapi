@@ -128,5 +128,18 @@
 			return $data;
 		}
 
+		//Deleting item from cart
+		public function deleteFromCart($id){
+			$query = $this->con->prepare("DELETE FROM `cart` WHERE `id` = ?");
+			$query->bind_param("s", $id);
+			if($query->execute()){
+				return 1;
+			}else{
+				return 0;
+			}
+			//$query->store_result();
+			//return $query->num_rows > 0;
+		}
+
 	}
 ?>

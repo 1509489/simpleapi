@@ -1,22 +1,14 @@
 <?php
     require_once '../includes/DbOperations.php';
-/* 
-    $response = array();
-    $db = new DbOperations();
-    $products = $db->getProductsFoodMain(); */
 
     $response = array();
     $results = array();
     $db = new DbOperations();
-    //$customer = $_POST('customer');
     
     if($db->getCartItems($_POST['customer'])){
         $products = $db->getCartItems($_POST['customer']);
-
             
         foreach($products as $product){
-            $response['error'] = false; 
-			$response['message'] = "Retrieval successful";
             $response['id'] = $product['id'];
             $response['name'] = $product['name'];
             $response['description'] = $product['description'];
@@ -29,21 +21,14 @@
             $results[] = $response;
             $output['cart_items'] = $results;
         }
+        
+        $finalOutput = $output;
+        $finalOutput['error'] = false; 
+        $finalOutput['message'] = "Retrieval successful";
     }else{
-        $response['error'] = true; 
-		$response['message'] = "Required fields are missing";
+        $finalOutput['error'] = true; 
+		$finalOutput['message'] = "Required fields are missing";
     }
-    
-    echo json_encode($output);
-    /*
-    if(isset($_POST['customer'])){
-       
-    }*/
-
-    /* 
-    if(!empty($products)){
-        $response['products'] = $products;
-    }
-    echo json_encode($response); */
+    echo json_encode($finalOutput);
 
 ?>
