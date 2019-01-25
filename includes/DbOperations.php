@@ -67,7 +67,7 @@
 
 		public function getProductsfeatured(){
 			$products = array();
-			$query = "SELECT * FROM products ORDER BY RAND() LIMIT 20";
+			$query = "SELECT * FROM products ORDER BY RAND() LIMIT 20";//ORDER BY RAND() LIMIT 25 76
 			$products = $this->getProducts($query);
 			return $products;
 		}
@@ -125,15 +125,16 @@
 			if(!empty($data))
 				return $data;
 			
-			return $data;
+			return 0;
 		}
 
 		//Deleting item from cart
-		public function deleteFromCart($id){
+		public function deleteFromCart($id, $customer){
 			$query = $this->con->prepare("DELETE FROM `cart` WHERE `id` = ?");
 			$query->bind_param("s", $id);
 			if($query->execute()){
-				return 1;
+				$products = $this->getCartItems($customer);
+				return $products;
 			}else{
 				return 0;
 			}

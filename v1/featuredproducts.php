@@ -3,35 +3,32 @@
 
     $response = array();
     $db = new DbOperations();
-    $products = $db->getProductsfeatured();
+    //$products = $db->getProductsfeatured();
     $results = array();
 
-    /*
-    if(!empty($products)){
-        $response['products'] = $products;
-    }*/
-/*
-    for($i = 0; $i < count($products); ++$i){
-        $response['id'] = $products[$i]['product_id'];
-        $response['name'] = $products[$i]['product_name'];
-        $response['description'] = $products[$i]['description'];
-        $response['price'] = $products[$i]['price'];
-        $response['imageUrl'] = $products[$i]['img_url'];
+    if($db->getProductsfeatured()){
+        $products = $db->getProductsfeatured();
 
-        $results[] = $response;
-        $output['products'] = $results;
-        
-    }*/
-    foreach($products as $product){
-        $response['id'] = $product['product_id'];
-        $response['name'] = $product['product_name'];
-        $response['description'] = $product['description'];
-        $response['price'] = $product['price'];
-        $response['imageUrl'] = $product['img_url'];
+        foreach($products as $product){
+            $response['id'] = $product['product_id'];
+            $response['name'] = $product['product_name'];
+            $response['description'] = $product['description'];
+            $response['price'] = $product['price'];
+            $response['imageUrl'] = $product['img_url'];
+    
+            $results[] = $response;
+            $output['products'] = $results;
+        }
 
-        $results[] = $response;
-        $output['products'] = $results;
+        $finalOutput = $output;
+        $finalOutput['error'] = false; 
+        $finalOutput['message'] = "Retrieval successful";
     }
-    echo json_encode($output);
+    else{
+        $finalOutput['error'] = true; 
+        $finalOutput['message'] = "Some error occured";
+    }
+    
+    echo json_encode($finalOutput);
     //echo json_encode($response);
 ?>
