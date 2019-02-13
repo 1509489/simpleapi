@@ -142,5 +142,16 @@
 			//return $query->num_rows > 0;
 		}
 
+		//Change item quantity in cart
+		public function setQuantity($quantity, $customer, $product_id){
+			$query = $this->con->prepare("UPDATE `cart` SET `quantity` = $quantity WHERE `cart`.`customer` = $customer AND `cart`.`product_id` = $product_id");
+			if($query->execute()){
+				$products = $this->getCartItems($customer);
+				return 1; 
+			}else{
+				return 0; 
+			}
+		}
+
 	}
 ?>
