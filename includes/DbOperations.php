@@ -153,5 +153,38 @@
 			}
 		}
 
+		//Insert into order table
+		public function insertOrder($customer_id, $total_price, $total_items){
+			$stmt = $this->con->prepare("INSERT INTO `orders` (`order_number`, `customer_id`, `total_price`, `total_items`)
+				VALUES (NULL, ?, ?, ?);");
+			$stmt->bind_param( "sss", $customer_id, $total_price, $total_items);
+
+			if($stmt->execute()){
+				$last_id = "SELECT LAST_INSERT_ID()";
+				
+				 $result = mysqli_query($this->con, $last_id);
+
+				while($row = mysqli_fetch_assoc($result)){
+					$data = $row;
+				}
+				if(!empty($data))
+					return $data;
+			}else{
+				return 0;
+			}
+		}
+
+		//Insert into order details table
+		public function insertOrderDetails($order_number, $name, $description, $quantity, $total_price, $img_url){
+			$stmt = $this->con->prepare("INSERT INTO `order_details` (`id`, `order_number`, `name`, `description`, `quantity`, `total_price`, `img_url`)
+			VALUES (NULL, ?, ?, ?, ?, ?, ?);");
+			$stmt->bind_param( "ssssss", $order_number, $name, $description, $quantity, $total_price, $img_url);
+
+			if($stmt->execute()){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
 	}
 ?>
