@@ -8,9 +8,9 @@
     if($db->deleteFromCart($_POST['id'], $_POST['customer'])){
         $results = $db->deleteFromCart($_POST['id'], $_POST['customer']);
         
-        if($results > 0){
+        if($results ==1 ){
             
-            foreach($results as $product){
+            /* foreach($results as $product){
                 $response['id'] = $product['id'];
                 $response['name'] = $product['name'];
                 $response['description'] = $product['description'];
@@ -27,9 +27,9 @@
             $finalOutput = $output;
             $finalOutput['error'] = false; 
             $finalOutput['message'] = "Delete successful";
-
-            /* $response['error'] = false; 
-            $response['message'] = "Delete successful"; */
+ */
+            $finalOutput['error'] = false; 
+            $finalOutput['message'] = "Delete successful";
 
         }elseif($results == 0){
             $finalOutput['error'] = true; 

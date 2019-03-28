@@ -134,7 +134,7 @@
 			$query->bind_param("s", $id);
 			if($query->execute()){
 				$products = $this->getCartItems($customer);
-				return $products;
+				return 1; //$products;
 			}else{
 				return 0;
 			}
