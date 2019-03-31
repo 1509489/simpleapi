@@ -117,7 +117,7 @@
 
 		//Get the products in cart for specific customer
 		public function getCartItems($customer){
-			$query = "SELECT * FROM cart WHERE customer = '$customer' ORDER BY name ASC"; 
+			$query = "SELECT * FROM cart WHERE customer = '$customer' "; 
 			$result = mysqli_query($this->con, $query);
 			while($row = mysqli_fetch_assoc($result)){
 				$data[] = $row;
@@ -175,16 +175,44 @@
 		}
 
 		//Insert into order details table
-		public function insertOrderDetails($order_number, $name, $description, $quantity, $total_price, $img_url){
-			$stmt = $this->con->prepare("INSERT INTO `order_details` (`id`, `order_number`, `name`, `description`, `quantity`, `total_price`, `img_url`)
+		public function insertOrderDetails($order_number, $name, $description, $quantity, $price, $img_url){
+			$stmt = $this->con->prepare("INSERT INTO `order_details` (`id`, `order_number`, `name`, `description`, `quantity`, `price`, `img_url`)
 			VALUES (NULL, ?, ?, ?, ?, ?, ?);");
-			$stmt->bind_param( "ssssss", $order_number, $name, $description, $quantity, $total_price, $img_url);
+			$stmt->bind_param( "ssssss", $order_number, $name, $description, $quantity, $price, $img_url);
 
 			if($stmt->execute()){
 				return 1;
 			}else{
 				return 0;
 			}
+		}
+
+		//Retrieve orders for customer
+		public function getOrders($customer){
+			$query = "SELECT * FROM orders WHERE `customer_id` = '$customer' ";
+
+			$result = mysqli_query($this->con, $query);
+			while($row = mysqli_fetch_assoc($result)){
+				$data[] = $row;
+			}
+			if(!empty($data))
+				return $data;
+			
+			return 0;
+		}
+
+		//Retrieve order details
+		public function getOrderDetails($orderNumber){
+			$query = "SELECT * FROM `order_details` WHERE `order_number` = $orderNumber";
+
+			$result = mysqli_query($this->con, $query);
+			while($row = mysqli_fetch_assoc($result)){
+				$data[] = $row;
+			}
+			if(!empty($data))
+				return $data;
+			
+			return 0;
 		}
 	}
 ?>
