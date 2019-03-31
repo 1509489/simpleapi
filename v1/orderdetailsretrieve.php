@@ -14,7 +14,7 @@
             $response['name'] = $order['name'];
             $response['description'] = $order['description'];
             $response['quantity'] = $order['quantity'];
-            $response['price'] = $order['total_price'];
+            $response['price'] = $order['price'];
             $response['imgUrl'] = $order['img_url'];
 
             $results[] = $response;
